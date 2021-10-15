@@ -1,7 +1,7 @@
 # File:   Makefile
-# Author: M. P. Hayes, UCECE
-# Date:   12 Sep 2010
-# Descr:  Makefile for game
+# Author: Jackie Jone, James Hazelhurst
+# Date:   15 October 2021
+# Descr:  Makefile for Brick Breaker Game
 
 # Definitions.
 CC = avr-gcc
@@ -16,7 +16,7 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ../../drivers/avr/system.h ../../drivers/ledmat.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h
+game.o: game.c ball.h ../../drivers/avr/system.h ../../drivers/ledmat.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -40,9 +40,12 @@ pacer.o: ../../utils/pacer.c ../../drivers/avr/system.h ../../drivers/avr/timer.
 navswitch.o: ../../drivers/navswitch.c ../../drivers/avr/delay.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+ball.o: ball.c ball.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o
+game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o ball.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
