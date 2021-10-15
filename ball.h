@@ -1,21 +1,21 @@
 #ifndef BALL_H
 #define BALL_H
-#include "system.h"
+#include <stdint.h>
 
-// Ball Structure
+/** Structure defining position of ball */
 typedef struct {
     int8_t colPos;
     int8_t rowPos;
     int8_t colDir;
     int8_t rowDir;
-
 } Ball_t;
 
 /** Create a new ball
     @param colPos Ball column starting position.
     @param rowPos Ball row starting position.
     @param colDir Ball column starting direction: 1 for up, -1 for down.
-    @param rowDir Ball row starting direction: 1 for right, -1 for left. */
+    @param rowDir Ball row starting direction: 1 for right, -1 for left.
+    @return New ball object. */
 Ball_t new_ball(int8_t colPos, int8_t rowPos, int8_t colDir, int8_t rowDir);
 
 /** Updates position of ball, must be constantly called

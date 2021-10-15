@@ -10,7 +10,8 @@
     @param colPos Ball column starting position.
     @param rowPos Ball row starting position.
     @param colDir Ball column starting direction: 1 for up, -1 for down.
-    @param rowDir Ball row starting direction: 1 for right, -1 for left. */
+    @param rowDir Ball row starting direction: 1 for right, -1 for left.
+    @return new ball object */
 Ball_t new_ball(int8_t colPos, int8_t rowPos, int8_t colDir, int8_t rowDir)
 {
     Ball_t newBall =

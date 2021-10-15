@@ -16,7 +16,7 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ball.h ../../drivers/avr/system.h ../../drivers/ledmat.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h
+game.o: game.c ball.h player.h ../../drivers/avr/system.h ../../drivers/ledmat.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -43,9 +43,12 @@ navswitch.o: ../../drivers/navswitch.c ../../drivers/avr/delay.h ../../drivers/a
 ball.o: ball.c ball.h ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+player.o: player.c player.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o ball.o
+game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o ball.o player.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
