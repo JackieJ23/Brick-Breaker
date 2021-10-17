@@ -1,3 +1,9 @@
+/** @file   player.h
+    @author Jackie Jone, James Hazelhurst
+    @date   17 October 2021
+    @brief  2 Pixel player bar module
+*/
+
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <stdint.h>

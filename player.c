@@ -1,3 +1,9 @@
+/** @file   player.c
+    @author Jackie Jone, James Hazelhurst
+    @date   17 October 2021
+    @brief  2 Pixel player bar module
+*/
+
 #include <stdint.h>
 #include "system.h"
 #include "player.h"
@@ -10,10 +16,12 @@
     @return New player object. */
 Player_t player_init(uint8_t colPos, uint8_t rowPos)
 {
+    // Make sure the player doesn't go off the screen horizontally
     if (colPos > LEDMAT_COLS_NUM - PLAYER_WIDTH) {
         colPos = LEDMAT_COLS_NUM - PLAYER_WIDTH;
     }
 
+    // Make sure the player doesn't go off the screen vertically
     if (rowPos > LEDMAT_ROWS_NUM - 1) {
         rowPos = LEDMAT_ROWS_NUM - 1;
     }

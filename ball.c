@@ -1,3 +1,9 @@
+/** @file   ball.c
+    @author Jackie Jone, James Hazelhurst
+    @date   17 October 2021
+    @brief  Bouncing Ball Module
+*/
+
 #include <stdint.h>
 #include "system.h"
 #include "ball.h"
@@ -29,18 +35,40 @@ Ball_t new_ball(int8_t colPos, int8_t rowPos, int8_t colDir, int8_t rowDir)
     @param ball pointer to a ball to update the position of. */
 void update_ball_pos(Ball_t* ball)
 {
+    // Increases the balls co-ordinates by the balls speed.
     ball->colPos += ball->colDir;
     ball->rowPos += ball->rowDir;
 
-    if (ball->colPos >= COL_WIDTH - 1) {
-        ball->colDir = -1;
-    } else if (ball->colPos <= 0) {
-        ball->colDir = 1;
+    // Checking if the ball has hit an edge of the screen.
+    if (ball->colPos >= COL_WIDTH - 1 || ball->colPos <= 0) {
+        flip_horiz_ball_dir(ball);
     }
 
-    if (ball->rowPos >= ROW_WIDTH - 1) {
-        ball->rowDir = -1;
-    } else if (ball->rowPos <= 0) {
-        ball->rowDir = 1;
+    if (ball->rowPos >= ROW_WIDTH - 1 || ball->rowPos <= 0) {
+        flip_vert_ball_dir(ball);
     }
+}
+
+/** Flips the horizontal direction the ball is going
+    @param ball Pointer to a ball. */
+void flip_horiz_ball_dir(Ball_t* ball)
+{
+    ball->colDir = -(ball->colDir);
+}
+
+/** Flips the verticle direction the ball is going
+    @param ball Pointer to a ball. */
+void flip_vert_ball_dir(Ball_t* ball)
+{
+    ball->rowDir = -(ball->rowDir);
+}
+
+/** Sets the direction the ball is going
+    @param ball Pointer to a ball.
+    @param vertDir Verticle direction to set.
+    @param horizDir Horitzontal direction to set. */
+void change_ball_dir(Ball_t* ball, int8_t vertDir, int8_t horizDir)
+{
+    ball->colDir = horizDir;
+    ball->rowDir = vertDir;
 }
