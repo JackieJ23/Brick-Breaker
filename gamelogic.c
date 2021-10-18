@@ -70,22 +70,24 @@ void refresh_ball(void)
         ; // TODO: End game here
     }
 
-    // Ball is above the player.
+    // Ball is in the row above the player.
     if (ballPos.y == playerPos.pRow - 1 && futureBallPos.y > ballPos.y) {
-        // Ball is above left side of player
+
+        // Ball is above left pixel of player.
         if (ballPos.x == playerPos.pLeft) {
             // flip_vert_ball_dir();
             change_ball_dir(-1, -1);
 
-        // Ball is above right side of player
+        // Ball is above right pixek of player.
         } else if (ballPos.x == playerPos.pRight) {
-            // flip_vert_ball_dir();
             change_ball_dir(-1, 1);
+
+        // Ball is coming towards the left player pixel from the top left corner
         } else if (futureBallPos.x == playerPos.pLeft) {
-            // flip_vert_ball_dir();
             change_ball_dir(-1, -1);
+
+        // Ball is coming towards the right player pixel from the top right corner
         } else if (futureBallPos.x == playerPos.pRight) {
-            // flip_vert_ball_dir();
             change_ball_dir(-1, 1);
         }
     }

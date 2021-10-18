@@ -17,21 +17,19 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define PACER_RATE 1500 //Hz
+// Defining pacer and update rates.
+#define PACER_RATE 500
+#define PLAYER_UPDATE_RATE 50
+#define DISPLAY_UPDATE_RATE 500
 
-#define PLAYER_UPDATE_RATE 40
-#define PLAYER_COUNTER_TOTAL PACER_RATE/PLAYER_UPDATE_RATE
-
-#define BALL_UPDATE_RATE 40
-#define BALL_COUNTER_TOTAL PACER_RATE/BALL_UPDATE_RATE
 
 
 
 int main(void)
 {
-    // Initilise system
+    // Initilise system.
     system_init();
-    pacer_init(500);
+    pacer_init(PACER_RATE);
     navswitch_init();
     display_init();
 
@@ -41,31 +39,30 @@ int main(void)
     ball_init(0, 3, 1, 1);
     player_init(2, 6);
 
-    uint64_t playerUpdateCounter = 0;
-    uint64_t ballUpdateCounter = 0;
-    uint64_t DisplayUpdateCounter = 0;
+
+    uint64_t ballSpeed = 2;
+    uint64_t BALL_COUNTER_TOTAL = PACER_RATE/ballSpeed;
+    uint64_t PLAYER_COUNTER_TOTAL = PACER_RATE/PLAYER_UPDATE_RATE;
+    uint64_t tickCounter = 0;
+
 
     while(true)
     {
         pacer_wait();
 
-        if (playerUpdateCounter >= PLAYER_COUNTER_TOTAL) {
+        if (tickCounter % PLAYER_COUNTER_TOTAL == 0) {
             navswitch_update();
             update_player();
-            playerUpdateCounter = 0;
         }
-        playerUpdateCounter++;
 
-        if (playerUpdateCounter >= BALL_COUNTER_TOTAL) {
+        if (tickCounter % BALL_COUNTER_TOTAL == 0) {
             refresh_ball();
-            ballUpdateCounter = 0;
         }
-        ballUpdateCounter++;
 
-        if (DisplayUpdateCounter >= 500) {
-            display_update();
-        }
-        DisplayUpdateCounter++;
-        // display_update();
+        // if (Counter % 1 == 0) {
+        //     display_update();
+        // }
+        display_update();
+        tickCounter++;
     }
 }
