@@ -5,16 +5,20 @@
 */
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "system.h"
 #include "player.h"
+#include "display.h" // TODO: include display in Makefile.
 
 #define PLAYER_WIDTH 2
+
+static Player_t player;
 
 /** Creates a new player with left of player on the given position
     @param colPos Horizontal (column) position to put the player. Left side on position.
     @param rowPos Veritcle (row) position to put the player.
     @return New player object. */
-Player_t player_init(uint8_t colPos, uint8_t rowPos)
+void player_init(uint8_t colPos, uint8_t rowPos)
 {
     // Make sure the player doesn't go off the screen horizontally
     if (colPos > LEDMAT_COLS_NUM - PLAYER_WIDTH) {
@@ -26,32 +30,31 @@ Player_t player_init(uint8_t colPos, uint8_t rowPos)
         rowPos = LEDMAT_ROWS_NUM - 1;
     }
 
-    Player_t newPlayer =
-    {
-        .pLeft = colPos,
-        .pRight = colPos + 1,
-        .pRow = rowPos
-    };
-
-    return newPlayer;
+    player.pLeft = colPos;
+    player.pRight = colPos + 1;
+    player.pRow = rowPos;
 }
 
 /** Moves a given player to the left by one pixel
     @param player Pointer a player to move. */
-void move_player_left(Player_t* player)
+void move_player_left()
 {
-    if (player->pLeft > 0) {
-        player->pRight--;
-        player->pLeft--;
+    if (player.pLeft > 0) {
+        display_pixel_set(player.pRight, player.pRow, false);
+        player.pRight--;
+        player.pLeft--;
+        display_pixel_set(player.pLeft, player.pRow, true);
     }
 }
 
 /** Moves a given player to the right by one pixel
     @param player Pointer a player to move. */
-void move_player_right(Player_t* player)
+void move_player_right()
 {
-    if (player->pRight < LEDMAT_COLS_NUM - 1) {
-        player->pRight++;
-        player->pLeft++;
+    if (player.pRight < LEDMAT_COLS_NUM - 1) {
+        display_pixel_set(player.pLeft, player.pRow, false);
+        player.pRight++;
+        player.pLeft++;
+        display_pixel_set(player.pRight, player.pRow, true);
     }
 }
