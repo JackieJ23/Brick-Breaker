@@ -38,17 +38,27 @@ void update_ball_pos(void)
     ball.pos.x += ball.dir.x;
     ball.pos.y += ball.dir.y;
 
-    // Turn on pixel in new position.
-    display_pixel_set(ball.pos.x, ball.pos.y, true);
+
 
     // Checking if the ball has hit an edge of the screen.
-    if (ball.pos.x >= COL_WIDTH - 1 || ball.pos.x <= 0) {
+    if (ball.pos.x >= COL_WIDTH - 1) {
+        ball.pos.x = COL_WIDTH - 1;
+        flip_horiz_ball_dir();
+    } else if (ball.pos.x <= 0) {
+        ball.pos.x = 0;
         flip_horiz_ball_dir();
     }
 
-    if (ball.pos.y >= ROW_WIDTH - 1 || ball.pos.y <= 0) {
+    if (ball.pos.y >= ROW_WIDTH - 1) {
+        ball.pos.y = ROW_WIDTH - 1;
+        flip_vert_ball_dir();
+    } else if (ball.pos.y <= 0) {
+        ball.pos.y = 0;
         flip_vert_ball_dir();
     }
+
+    // Turn on pixel in new position.
+    display_pixel_set(ball.pos.x, ball.pos.y, true);
 }
 
 /** Flips the horizontal direction the ball is going. */
@@ -73,8 +83,19 @@ void change_ball_dir(int8_t vertDir, int8_t horizDir)
 }
 
 /** Gets the position of the ball
-    @returns position Position of the ball. */
+    @returns Position of the ball. */
 Ball_vect_t get_ball_position(void)
 {
     return ball.pos;
+}
+
+/** Gets the direction the ball is moving
+    @returns Future position of the ball. */
+Ball_vect_t get_future_ball_position(void)
+{
+    Ball_vect_t futurePos = {
+        .x = ball.pos.x + ball.dir.x,
+        .y = ball.pos.y + ball.dir.y
+    };
+    return futurePos;
 }

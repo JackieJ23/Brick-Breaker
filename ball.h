@@ -45,4 +45,8 @@ void change_ball_dir(int8_t vertDir, int8_t horizDir);
     @returns position Position of the ball. */
 Ball_vect_t get_ball_position(void);
 
+/** Gets the direction the ball is moving
+    @returns Future position of the ball. */
+Ball_vect_t get_future_ball_position(void);
+
 #endif

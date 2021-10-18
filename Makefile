@@ -16,7 +16,7 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ball.h player.h ../../drivers/avr/system.h ../../drivers/ledmat.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h
+game.o: game.c ball.h player.h gamelogic.h ../../drivers/avr/system.h ../../drivers/ledmat.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -43,12 +43,14 @@ navswitch.o: ../../drivers/navswitch.c ../../drivers/avr/delay.h ../../drivers/a
 ball.o: ball.c ball.h ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-player.o: player.c player.h ../../drivers/avr/system.h
+player.o: player.c player.h ../../drivers/avr/system.h ../../drivers/display.h
 	$(CC) -c $(CFLAGS) $< -o $@
+
+gamelogic.o: gamelogic.c gamelogic.h ball.h player.h ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/navswitch.h
 
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o ball.o player.o
+game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o ball.o player.o gamelogic.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
@@ -64,3 +66,8 @@ clean:
 program: game.out
 	$(OBJCOPY) -O ihex game.out game.hex
 	dfu-programmer atmega32u2 erase; dfu-programmer atmega32u2 flash game.hex; dfu-programmer atmega32u2 start
+
+.PHONY: new
+new:
+	make program
+	make clean

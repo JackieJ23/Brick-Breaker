@@ -41,9 +41,13 @@ void player_init(uint8_t colPos, uint8_t rowPos)
 void move_player_left(void)
 {
     if (player.pLeft > 0) {
+        display_pixel_set(player.pLeft, player.pRow, false);
         display_pixel_set(player.pRight, player.pRow, false);
+
         player.pRight--;
         player.pLeft--;
+
+        display_pixel_set(player.pRight, player.pRow, true);
         display_pixel_set(player.pLeft, player.pRow, true);
     }
 }
@@ -57,6 +61,7 @@ void move_player_right(void)
 
         player.pRight++;
         player.pLeft++;
+
         display_pixel_set(player.pRight, player.pRow, true);
         display_pixel_set(player.pLeft, player.pRow, true);
 
@@ -73,4 +78,5 @@ Player_t get_player_position(void)
         .pRow = player.pRow
     };
     return playerCpy;
+    // return player;
 }
