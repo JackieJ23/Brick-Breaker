@@ -49,6 +49,10 @@ Ball_vect_t get_ball_position(void);
     @returns Future position of the ball. */
 Ball_vect_t get_future_ball_position(void);
 
+/** Gets the direction of the ball
+    @returns Direction of the ball. */
+Ball_vect_t get_ball_direction(void);
+
 /** Checks if the ball is in a given row
     @param row Row to check if the ball is in.
     @return boolean value whether the ball is in the row or not.*/
