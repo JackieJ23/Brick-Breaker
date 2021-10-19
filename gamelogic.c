@@ -8,6 +8,7 @@
 #include "navswitch.h"
 #include "ball.h"
 #include "player.h"
+#include "bricks.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -63,33 +64,52 @@ void update_player(void)
 void refresh_ball(void)
 {
     Ball_vect_t ballPos = get_ball_position();
+    Ball_vect_t ballDir = get_ball_direction();
     Ball_vect_t futureBallPos = get_future_ball_position();
     Player_t playerPos = get_player_position();
 
     if (ballPos.y >= LEDMAT_ROWS_NUM - 1) {
         ; // TODO: End game here
     }
+    int output = ball_hit_brick(futureBallPos, ballPos, ballDir);
+    if (output == 1) {
+		flip_vert_ball_dir();
+	} else if (output == 2) {
+		flip_horiz_ball_dir();
+	} else if (output == 3) {
+		flip_vert_ball_dir();
+		flip_horiz_ball_dir();
+	}
 
     // Ball is in the row above the player.
     if (ballPos.y == playerPos.pRow - 1 && futureBallPos.y > ballPos.y) {
+		
+		
+		if (ballPos.x == 4 && (playerPos.pRight == 4 || playerPos.pRight == 3)) {
+			change_ball_dir(-1, -1);
+		} else if (ballPos.x == 0 && (playerPos.pLeft == 0 || playerPos.pLeft == 1)) {
+			change_ball_dir(-1, 1);
+		} else {
+		
+			// Ball is above left pixel of player.
+			if (ballPos.x == playerPos.pLeft) {
+				// flip_vert_ball_dir();
+				change_ball_dir(-1, -1);
 
-        // Ball is above left pixel of player.
-        if (ballPos.x == playerPos.pLeft) {
-            // flip_vert_ball_dir();
-            change_ball_dir(-1, -1);
+			// Ball is above right pixek of player.
+			} else if (ballPos.x == playerPos.pRight) {
+				change_ball_dir(-1, 1);
 
-        // Ball is above right pixek of player.
-        } else if (ballPos.x == playerPos.pRight) {
-            change_ball_dir(-1, 1);
+			// Ball is coming towards the left player pixel from the top left corner
+			} else if (futureBallPos.x == playerPos.pLeft) {
+				change_ball_dir(-1, -1);
 
-        // Ball is coming towards the left player pixel from the top left corner
-        } else if (futureBallPos.x == playerPos.pLeft) {
-            change_ball_dir(-1, -1);
-
-        // Ball is coming towards the right player pixel from the top right corner
-        } else if (futureBallPos.x == playerPos.pRight) {
-            change_ball_dir(-1, 1);
-        }
+			// Ball is coming towards the right player pixel from the top right corner
+			} else if (futureBallPos.x == playerPos.pRight) {
+				change_ball_dir(-1, 1);
+			}
+        
+		}
     }
     update_ball_pos();
 }
