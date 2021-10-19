@@ -40,9 +40,10 @@ int main(void)
     player_init(2, 6);
 
 
-    uint64_t ballSpeed = 2;
-    uint64_t BALL_COUNTER_TOTAL = PACER_RATE/ballSpeed;
-    uint64_t PLAYER_COUNTER_TOTAL = PACER_RATE/PLAYER_UPDATE_RATE;
+    uint64_t ballSpeed = 1; // Change this to change ball speed.
+    uint64_t BALL_COUNTER_TOTAL = PACER_RATE / ballSpeed;
+    uint64_t PLAYER_COUNTER_TOTAL = PACER_RATE / PLAYER_UPDATE_RATE;
+    uint64_t DISPLAY_COUNTER_TOTAL = PACER_RATE / DISPLAY_UPDATE_RATE;
     uint64_t tickCounter = 0;
 
 
@@ -59,10 +60,9 @@ int main(void)
             refresh_ball();
         }
 
-        // if (Counter % 1 == 0) {
-        //     display_update();
-        // }
-        display_update();
+        if (tickCounter % DISPLAY_COUNTER_TOTAL == 0) {
+            display_update();
+        }
         tickCounter++;
     }
 }
