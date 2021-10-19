@@ -26,6 +26,7 @@ void ball_init(int8_t colPos, int8_t rowPos, int8_t colDir, int8_t rowDir)
     ball.pos.y = rowPos;
     ball.dir.x = colDir;
     ball.dir.y = rowDir;
+    display_pixel_set(ball.pos.x, ball.pos.y, true);
 }
 
 /** Updates position of ball, must be constantly called */
@@ -100,4 +101,13 @@ Ball_vect_t get_future_ball_position(void)
         .y = ball.pos.y + ball.dir.y
     };
     return futurePos;
+}
+
+
+/** Checks if the ball is in a given row
+    @param row Row to check if the ball is in.
+    @return boolean value whether the ball is in the row or not.*/
+bool ball_in_row(uint8_t row)
+{
+    return ball.pos.y == row;
 }

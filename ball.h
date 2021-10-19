@@ -49,4 +49,9 @@ Ball_vect_t get_ball_position(void);
     @returns Future position of the ball. */
 Ball_vect_t get_future_ball_position(void);
 
+/** Checks if the ball is in a given row
+    @param row Row to check if the ball is in.
+    @return boolean value whether the ball is in the row or not.*/
+bool ball_in_row(uint8_t row);
+
 #endif
