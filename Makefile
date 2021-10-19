@@ -46,6 +46,10 @@ ball.o: ball.c ball.h ../../drivers/avr/system.h
 player.o: player.c player.h ../../drivers/avr/system.h ../../drivers/display.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+bricks.o: bricks.c bricks.h ../../drivers/avr/system.h ../../drivers/display.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+
 gamelogic.o: gamelogic.c gamelogic.h ball.h player.h ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
@@ -56,7 +60,7 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o ball.o player.o gamelogic.o tinygl.o font.o
+game.out: game.o system.o display.o ledmat.o pacer.o pio.o timer.o navswitch.o ball.o player.o gamelogic.o tinygl.o font.o bricks.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
