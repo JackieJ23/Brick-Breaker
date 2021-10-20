@@ -78,5 +78,6 @@ program: game.out
 
 .PHONY: new
 new:
+	make clean
 	make program
 	make clean

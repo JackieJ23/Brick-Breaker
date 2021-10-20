@@ -150,12 +150,6 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
     @return Boolean value wether there are bricks in the game or not. */
 bool bricks_remaining(void)
 {
-	// for (uint8_t brickNum=0; brickNum<LEDMAT_COLS_NUM * LEDMAT_ROWS_NUM; brickNum++) {
-	// 	if (brick_array[brickNum]) {
-	// 		return true;
-	// 	}
-	// }
-
 	for (int colNum=0; colNum<LEDMAT_COLS_NUM; colNum++) {
 	  for (int rowNum=0;rowNum<LEDMAT_ROWS_NUM;rowNum++) {
 		 if (brick_array[colNum][rowNum] == true) {
