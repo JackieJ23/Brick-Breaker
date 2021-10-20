@@ -5,7 +5,7 @@
 */
 #include <stdint.h>
 #include <stdbool.h>
-#include <time.h>
+#include <stdlib.h>
 #include "system.h"
 #include "bricks.h"
 #include "ball.h"
@@ -25,23 +25,23 @@ Brick_t brick_init(uint8_t colPos, uint8_t rowPos, bool alive)
     brick.row = rowPos;
     brick.col = colPos;
     brick.is_alive = alive;
-	
+
 	if (alive) {
 		display_pixel_set(brick.col, brick.row, true);
 	} else {
 		display_pixel_set(brick.col, brick.row, false);
 
 	}
-    
+
     return brick;
 }
 
 
 void bricks_init()
 {
-	
+
 	int number;
-	
+
 	for (int i=0; i<5; i++) {
 	  for (int j=0;j<4;j++) {
 		 number = rand() % 2;
@@ -55,7 +55,7 @@ void bricks_init()
 		 brick_init(i, j, false);
 	  }
 	}
-	
+
 }
 
 void kill_brick(uint8_t row, uint8_t col)
@@ -65,12 +65,12 @@ void kill_brick(uint8_t row, uint8_t col)
 }
 
 int ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_vect_t ballDir)
-{	
-	
+{
+
 	bool above = brick_array[ballPos.x][ballPos.y + ballDir.y];
 	bool diag = brick_array[futureBallPos.x][futureBallPos.y];
 	bool adj = brick_array[ballPos.x + ballDir.x][ballPos.y];
-	
+
 	//~ if (above) {
 		//~ kill_brick((ballPos.y + ballDir.y), ballPos.x);
 		//~ return 1;
@@ -80,7 +80,7 @@ int ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_vect_t b
 	//~ } else {
 		//~ return 0;
 	//~ }
-	
+
 	if (above && diag && adj) {
 		kill_brick(ballPos.x, ballPos.y + ballDir.y);
 		kill_brick(ballPos.x + ballDir.x, ballPos.y);
@@ -112,7 +112,7 @@ int ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_vect_t b
 	} else {
 		return 0;
 	}
-	
+
 	//~ if ((ballPos.y + ballDir.y) == brick.row && ballPos.x == brick.col) {
 		//~ return 1;
 	//~ } else if (0) {

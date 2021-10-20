@@ -134,7 +134,8 @@ void start_new_game(void)
     // Create new ball and initalise player.
     display_clear();
     display_update();
-    ball_init(2, 2, 1, 1);
+    bricks_init();
+    ball_init(2, 4, 1, 1);
     player_init(2, 6);
 }
 

@@ -49,7 +49,6 @@ player.o: player.c player.h ../../drivers/avr/system.h ../../drivers/display.h
 bricks.o: bricks.c bricks.h ../../drivers/avr/system.h ../../drivers/display.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-
 gamelogic.o: gamelogic.c gamelogic.h ball.h player.h ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font3x5_1_r.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
