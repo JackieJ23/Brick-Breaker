@@ -51,10 +51,9 @@ int main(void)
     navswitch_init();
     display_init();
 
-    uint64_t ballSpeed = 3; // Change this to change ball speed.
+    uint64_t ballSpeed = 5; // Change this to change ball speed.
     uint64_t BALL_COUNTER_TOTAL = PACER_RATE / ballSpeed;
     uint64_t PLAYER_COUNTER_TOTAL = PACER_RATE / PLAYER_UPDATE_RATE;
-    //uint64_t BRICK_COUNTER_TOTAL = PACER_RATE / ballSpeed // TODO: make own rate or combine with ball
     uint64_t DISPLAY_COUNTER_TOTAL = PACER_RATE / DISPLAY_UPDATE_RATE;
     uint64_t START_MENU_COUNTER_TOTAL = PACER_RATE / START_MENU_UPDATE_RATE;
     uint64_t tickCounter = 0;
@@ -87,7 +86,7 @@ int main(void)
                 if (newGame) {
                     // Could be added to a new game funciton
                     // Create new ball and initalise player
-                    ball_init(0, 1, 1, 1);
+                    ball_init(0, 4, 1, 1);
                     player_init(2, 6);
                     bricks_init();
                     newGame = false;
