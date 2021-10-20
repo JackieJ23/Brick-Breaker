@@ -8,20 +8,57 @@
 #include "navswitch.h"
 #include "ball.h"
 #include "player.h"
+#include "gamelogic.h"
+#include "tinygl.h"
+#include "../fonts/font3x5_1.h"
 #include <stdbool.h>
 #include <stdint.h>
 
-// Bitmap of whole game.
-/*  Bitmap can be used to identify position of player, position of bricks
-    and easily use bit-aritmetic for game logic. */
-// static uint8_t gameMap[LEDMAT_COLS_NUM] =
-// {
-//     0x00, 0x00, 0x00, 0x00, 0x00
-// };
+#define START_MENU_MESSAGE "BRICK BREAKER"
+#define GAME_OVER_MESSAGE "GAME OVER"
 
-/** Updates the players position and changes the positon on the screen */
+// Defining state of the game.
+static Game_state_t GAME_STATE = START_MENU;
+// Defining whether the scrolling text has been updated.
+static bool UPDATED_TEXT = false;
+
+/** Initalise display text.
+    @param rate Rate to set tingyl. */
+void display_text_init(uint16_t rate)
+{
+    tinygl_init(rate);
+    tinygl_font_set(&font3x5_1);
+    tinygl_text_mode_set(TINYGL_TEXT_MODE_SCROLL);
+    tinygl_text_dir_set(TINYGL_TEXT_DIR_ROTATE);
+}
+
+/** Set the text to display
+    @param string The string of text to display. */
+void set_display_text(const char* string)
+{
+    display_clear();
+    display_update();
+    tinygl_text(string);
+}
+
+/** Updates display and moves the message. */
+void refresh_display_text(void)
+{
+    tinygl_update();
+}
+
+/** Gets the current game state
+    @return The current state of the game. */
+Game_state_t get_game_state(void)
+{
+    Game_state_t currentGameState = GAME_STATE;
+    return currentGameState;
+}
+
+/** Updates the players position and changes the positon on the screen. */
 void update_player(void)
 {
+    navswitch_update();
     if (navswitch_push_event_p(NAVSWITCH_EAST)) {
         move_player_right();
     }
@@ -29,45 +66,21 @@ void update_player(void)
     if (navswitch_push_event_p(NAVSWITCH_WEST)) {
         move_player_left();
     }
-
-    // Updates the position of the player on the gameMap (bitmap).
-    // Note: not needed if the player pos is updated using display_pixel_set().
-    // for (uint8_t i = 0; i < LEDMAT_COLS_NUM; i++) {
-    //     if (i == player->pLeft || i == player->pRight) {
-    //         gameMap[i] |= (1 << (player->pRow));
-    //     } else {
-    //         gameMap[i] &= ~(1 << (player->pRow));
-    //     }
-    // }
 }
 
-// No longer needed
-/** Updates the display of the whole game by iterating through the gameMap and
-    changing the values on the display.c module's own bitmap to be displayed
-    could be slow.
-    Note: Not needed if directly updating display.c module's bitmap in ball and
-    player refersh/update code. */
-// void game_update_display()
-// {
-//     bool pixelOn;
-//     for (uint8_t col = 0; col < LEDMAT_COLS_NUM; col++) {
-//         for (uint8_t row = 0; row < LEDMAT_ROWS_NUM; row++) {
-//             pixelOn = ((gameMap[col] >> row) & 1);
-//             display_pixel_set(col, row, pixelOn);
-//         }
-//     }
-
-//     display_update();
-// }
-
+/** Logic for refreshing the ball's position.
+    Checks if the ball is touching the player and bounches the ball off the player. */
 void refresh_ball(void)
 {
     Ball_vect_t ballPos = get_ball_position();
     Ball_vect_t futureBallPos = get_future_ball_position();
     Player_t playerPos = get_player_position();
 
+    // End the game.
     if (ballPos.y >= LEDMAT_ROWS_NUM - 1) {
-        ; // TODO: End game here
+        display_clear();
+        display_update();
+        GAME_STATE = GAME_END;
     }
 
     // Ball is in the row above the player.
@@ -82,14 +95,63 @@ void refresh_ball(void)
         } else if (ballPos.x == playerPos.pRight) {
             change_ball_dir(-1, 1);
 
-        // Ball is coming towards the left player pixel from the top left corner
+        // Ball is coming towards the left player pixel from the top left corner.
         } else if (futureBallPos.x == playerPos.pLeft) {
             change_ball_dir(-1, -1);
 
-        // Ball is coming towards the right player pixel from the top right corner
+        // Ball is coming towards the right player pixel from the top right corner.
         } else if (futureBallPos.x == playerPos.pRight) {
             change_ball_dir(-1, 1);
         }
     }
+
     update_ball_pos();
+}
+
+/** Sets up display for a new game. */
+void start_new_game(void)
+{
+    // Create new ball and initalise player.
+    display_clear();
+    display_update();
+    ball_init(2, 2, 1, 1);
+    player_init(2, 6);
+}
+
+/** Updating start menu. */
+void refresh_start_menu(void)
+{
+    if (!UPDATED_TEXT) {
+        display_clear();
+        display_update();
+        set_display_text(START_MENU_MESSAGE);
+        UPDATED_TEXT = true;
+    }
+
+    refresh_display_text();
+
+    navswitch_update();
+    if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+        start_new_game();
+        GAME_STATE = GAME_RUNNING;
+        UPDATED_TEXT = false;
+    }
+}
+
+/** Updating end screen. */
+void refresh_end_screen(void)
+{
+    if (!UPDATED_TEXT)
+    {
+        set_display_text(GAME_OVER_MESSAGE);
+        UPDATED_TEXT = !UPDATED_TEXT;
+    }
+    refresh_display_text();
+
+
+    navswitch_update();
+    if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+        GAME_STATE = START_MENU;
+        UPDATED_TEXT = false;
+    }
 }

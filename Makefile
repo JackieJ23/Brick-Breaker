@@ -16,7 +16,7 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ball.h player.h gamelogic.h ../../drivers/avr/system.h ../../drivers/ledmat.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h ../../utils/tinygl.h ../../fonts/font3x5_1_r.h
+game.o: game.c ball.h player.h gamelogic.h ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pacer.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -46,7 +46,7 @@ ball.o: ball.c ball.h ../../drivers/avr/system.h
 player.o: player.c player.h ../../drivers/avr/system.h ../../drivers/display.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gamelogic.o: gamelogic.c gamelogic.h ball.h player.h ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/navswitch.h
+gamelogic.o: gamelogic.c gamelogic.h ball.h player.h ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font3x5_1_r.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 font.o: ../../utils/font.c ../../drivers/avr/system.h ../../utils/font.h
