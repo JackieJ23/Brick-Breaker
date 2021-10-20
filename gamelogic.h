@@ -47,4 +47,22 @@ void refresh_end_screen(void);
 /** Gets the current game state
     @return The current state of the game. */
 Game_state_t get_game_state(void);
+
+/** Check if it is time to increase the difficulty of the game
+    @return value to increase ball speed by. */
+uint64_t update_level(void);
+
+/** Updates the speed of the ball .
+    @param pacerRate Rate of the pacer loop.
+    @param currentBallSpeed Pointer to ball speed to update.
+    @param counterTotal Pointer to the counter total to update.
+    @param speed Speed to set the current ball speed to. */
+void set_ball_speed
+(
+const uint64_t pacerRate,
+uint64_t* currentBallSpeed,
+uint64_t* counterTotal,
+uint64_t speed
+);
+
 #endif

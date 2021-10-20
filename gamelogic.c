@@ -16,6 +16,7 @@
 
 #define START_MENU_MESSAGE "BRICK BREAKER"
 #define GAME_OVER_MESSAGE "GAME OVER"
+#define BALL_SPEED_INCREASE_AMOUNT 1
 
 // Defining state of the game.
 static Game_state_t GAME_STATE = START_MENU;
@@ -180,4 +181,33 @@ void refresh_end_screen(void)
         GAME_STATE = START_MENU;
         UPDATED_TEXT = false;
     }
+}
+
+/** Check if it is time to increase the difficulty of the game
+    @return value to increase ball speed by. */
+uint64_t update_level(void)
+{
+    Ball_vect_t ballPos = get_ball_position();
+    if (ballPos.y >= 4 && !bricks_remaining()) { // TODO: Get rid of magic number
+        bricks_init();
+        return BALL_SPEED_INCREASE_AMOUNT;
+    }
+    return 0;
+}
+
+/** Updates the speed of the ball .
+    @param pacerRate Rate of the pacer loop.
+    @param currentBallSpeed Pointer to ball speed to update.
+    @param counterTotal Pointer to the counter total to update.
+    @param speed Speed to set the current ball speed to. */
+void set_ball_speed
+(
+const uint64_t pacerRate,
+uint64_t* currentBallSpeed,
+uint64_t* counterTotal,
+uint64_t speed
+)
+{
+    *currentBallSpeed = speed;
+    *counterTotal = pacerRate / (*currentBallSpeed);
 }

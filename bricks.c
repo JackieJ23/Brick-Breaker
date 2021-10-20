@@ -10,8 +10,19 @@
 #include "display.h"
 #include "ball.h"
 
-/** 2D array contianing all the brick positions*/
-static bool brick_array[5][7];
+#define MAX_BRICK_DEPTH 4
+
+/** 2D array contianing all the brick positions
+    <-- Top of display.
+	/\ Right of display. */
+static bool brick_array[5][7] =
+{
+	{0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0}
+};
 
 
 /** Creates a new player with left of player on the given position
@@ -41,20 +52,22 @@ void bricks_init(void)
 {
 	int randomNumber;
 
-	for (int i=0; i<5; i++) {
-	  for (int j=0;j<4;j++) {
+	// Randomly create balls in the first 4 rows
+	for (int colNum=0; colNum<LEDMAT_COLS_NUM; colNum++) {
+	  for (int rowNum=0;rowNum<MAX_BRICK_DEPTH;rowNum++) {
 		 randomNumber = rand() % 2;
-		 brick_array[i][j] = randomNumber;
-		 brick_init(i, j, randomNumber); // Brick is returned but nothing is done with it.
+		 brick_array[colNum][rowNum] = randomNumber;
+		 brick_init(colNum, rowNum, randomNumber); // Brick is returned but nothing is done with it.
 	  }
 	}
 
-	for (int i=0; i<5; i++) {
-	  for (int j=4;j<7;j++) {
-		 brick_array[i][j] = false;
-		 brick_init(i, j, false);
-	  }
-	}
+	// Initalise rest of brick_array without any bricks
+	// for (int colNum=0; colNum<LEDMAT_COLS_NUM; colNum++) {
+	//   for (int rowNum=4;rowNum<LEDMAT_ROWS_NUM;rowNum++) {
+	// 	 brick_array[colNum][rowNum] = false;
+	// 	 brick_init(colNum, rowNum, false);
+	//   }
+	// }
 
 }
 
@@ -131,4 +144,25 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 	//~ } else {
 		//~ return 0;
 	//~ }
+}
+
+/** Checks if there are any more bricks in the current game.
+    @return Boolean value wether there are bricks in the game or not. */
+bool bricks_remaining(void)
+{
+	// for (uint8_t brickNum=0; brickNum<LEDMAT_COLS_NUM * LEDMAT_ROWS_NUM; brickNum++) {
+	// 	if (brick_array[brickNum]) {
+	// 		return true;
+	// 	}
+	// }
+
+	for (int colNum=0; colNum<LEDMAT_COLS_NUM; colNum++) {
+	  for (int rowNum=0;rowNum<LEDMAT_ROWS_NUM;rowNum++) {
+		 if (brick_array[colNum][rowNum] == true) {
+			 return true;
+		 }
+	  }
+	}
+
+	return false;
 }

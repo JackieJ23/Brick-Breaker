@@ -16,9 +16,9 @@ typedef struct {
     bool is_alive;
 } Brick_t;
 
-/** Creates a new player with left of player on the given position
-    @param colPos Horizontal (column) position to put the player. Left side on position.
-    @param rowPos Veritcle (row) position to put the player.
+/** Creates a new brick on the given position.
+    @param colPos Horizontal (column) position to put the brick.
+    @param rowPos Veritcle (row) position to put the brick.
 	@param alive Set brick on or off. */
 Brick_t brick_init(uint8_t colPos, uint8_t rowPos, bool alive);
 
@@ -36,5 +36,9 @@ void kill_brick(uint8_t row, uint8_t col);
 	@param ballDir Direction the ball is going.
 	@return Direction to flip the ball.*/
 Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_vect_t ballDir);
+
+/** Checks if there are any more bricks in the current game.
+    @return Boolean value wether there are bricks in the game or not. */
+bool bricks_remaining(void);
 
 #endif
