@@ -5,6 +5,7 @@
 */
 #include <stdint.h>
 #include <stdbool.h>
+#include <time.h>
 #include "system.h"
 #include "bricks.h"
 #include "ball.h"
@@ -39,16 +40,18 @@ Brick_t brick_init(uint8_t colPos, uint8_t rowPos, bool alive)
 void bricks_init()
 {
 	
+	int number;
 	
 	for (int i=0; i<5; i++) {
-	  for (int j=0;j<1;j++) {
-		 brick_array[i][j] = true;
-		 brick_init(i, j, true);
+	  for (int j=0;j<4;j++) {
+		 number = rand() % 2;
+		 brick_array[i][j] = number;
+		 brick_init(i, j, number);
 	  }
 	}
 	for (int i=0; i<5; i++) {
-	  for (int j=1;j<7;j++) {
-		  brick_array[i][j] = false;
+	  for (int j=4;j<7;j++) {
+		 brick_array[i][j] = false;
 		 brick_init(i, j, false);
 	  }
 	}
@@ -80,12 +83,12 @@ int ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_vect_t b
 	
 	if (above && diag && adj) {
 		kill_brick(ballPos.x, ballPos.y + ballDir.y);
-		kill_brick(ballPos.x + ballDir.x, ballPos.y + ballDir.y);
+		kill_brick(ballPos.x + ballDir.x, ballPos.y);
 		return 3;
 	} else if (above && adj && !diag) {
 		//kill above and adj
 		kill_brick(ballPos.x, ballPos.y + ballDir.y);
-		kill_brick(ballPos.x + ballDir.x, ballPos.y + ballDir.y);
+		kill_brick(ballPos.x + ballDir.x, ballPos.y);
 		return 3;
 	} else if (!above && diag && !adj) {
 		//~ // kill diag
