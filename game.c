@@ -11,9 +11,9 @@
 #include "ball.h"
 #include "player.h"
 #include "gamelogic.h"
+#include "bricks.h"
 #include <stdbool.h>
 #include <stdint.h>
-
 
 // Defining pacer and update rates.
 #define PACER_RATE 500
@@ -31,7 +31,7 @@ int main(void)
     display_init();
 
     // TODO: Constants and use of constants needs a bit of an update.
-    uint64_t ballSpeed = 5; // Change this to change ball speed.
+    uint64_t ballSpeed = 3; // Change this to change ball speed.
     uint64_t BALL_COUNTER_TOTAL = PACER_RATE / ballSpeed;
     uint64_t PLAYER_COUNTER_TOTAL = PACER_RATE / PLAYER_UPDATE_RATE;
     uint64_t DISPLAY_COUNTER_TOTAL = PACER_RATE / DISPLAY_UPDATE_RATE;
@@ -52,7 +52,6 @@ int main(void)
                 break;
 
             case GAME_RUNNING:
-
                 if (tickCounter % PLAYER_COUNTER_TOTAL == 0) {
                     update_player();
                 }

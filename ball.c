@@ -43,6 +43,8 @@ void update_ball_pos(void)
 
     // Checking if the ball has hit an edge of the screen.
     // Left and right edges.
+    
+    
     if (ball.pos.x >= COL_WIDTH - 1) {
         ball.pos.x = COL_WIDTH - 1;
         flip_horiz_ball_dir();
@@ -102,6 +104,15 @@ Ball_vect_t get_future_ball_position(void)
     };
     return futurePos;
 }
+
+/** Gets the direction of the ball
+    @returns Direction of the ball. */
+Ball_vect_t get_ball_direction(void)
+{
+	return ball.dir;
+}
+
+
 
 
 /** Checks if the ball is in a given row
