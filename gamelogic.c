@@ -16,7 +16,6 @@
 
 #define START_MENU_MESSAGE "BRICK BREAKER"
 #define GAME_OVER_MESSAGE "GAME OVER"
-#define BALL_SPEED_INCREASE_AMOUNT 1
 
 // Defining state of the game.
 static Game_state_t GAME_STATE = START_MENU;
@@ -81,6 +80,7 @@ void refresh_ball(void)
     // End the game.
     if (ballPos.y >= LEDMAT_ROWS_NUM - 1) {
         display_clear();
+        display_pixel_set(0, 0, 1);
         display_update();
         GAME_STATE = GAME_END;
     }
@@ -131,6 +131,7 @@ void refresh_ball(void)
             }
         }
     }
+
     update_ball_pos();
 }
 
@@ -160,26 +161,27 @@ void refresh_start_menu(void)
     navswitch_update();
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
         start_new_game();
-        GAME_STATE = GAME_RUNNING;
         UPDATED_TEXT = false;
+        GAME_STATE = GAME_RUNNING;
     }
 }
 
 /** Updating end screen. */
 void refresh_end_screen(void)
 {
-    if (!UPDATED_TEXT)
-    {
+    if (!UPDATED_TEXT) {
+        display_text_init(DISPLAY_TEXT_RATE);
         set_display_text(GAME_OVER_MESSAGE);
-        UPDATED_TEXT = !UPDATED_TEXT;
+        UPDATED_TEXT = true;
     }
+
     refresh_display_text();
 
 
     navswitch_update();
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-        GAME_STATE = START_MENU;
         UPDATED_TEXT = false;
+        GAME_STATE = START_MENU;
     }
 }
 

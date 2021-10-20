@@ -10,6 +10,10 @@
 #include "system.h"
 #include <stdint.h>
 
+#define DISPLAY_TEXT_RATE 750
+#define BALL_SPEED_INCREASE_AMOUNT 1
+
+
 // Defining different game states
 typedef enum {
     START_MENU,

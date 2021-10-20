@@ -24,8 +24,8 @@ int main(void)
 {
     // Initilise system.
     system_init();
-    pacer_init(PACER_RATE);
-    display_text_init(DISPLAY_UPDATE_RATE);
+    pacer_init(DISPLAY_TEXT_RATE);
+    display_text_init(DISPLAY_TEXT_RATE);
     navswitch_init();
     display_init();
 
@@ -37,6 +37,7 @@ int main(void)
     const uint64_t START_MENU_COUNTER_TOTAL = PACER_RATE / START_MENU_UPDATE_RATE;
     uint64_t tickCounter = 0;
     uint64_t ballSpeedIncrease;
+
 
     while(true)
     {
