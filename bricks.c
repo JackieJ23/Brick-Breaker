@@ -102,8 +102,8 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 		//~ return 0;
 	//~ }
 
+
 	if (above && diag && adj) {
-		//kill above and adj
 		kill_brick(ballPos.x, ballPos.y + ballDir.y);
 		kill_brick(ballPos.x + ballDir.x, ballPos.y);
 		return 3;
@@ -113,24 +113,54 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 		kill_brick(ballPos.x + ballDir.x, ballPos.y);
 		return 3;
 	} else if (!above && diag && !adj) {
-		// kill diag
+		//~ // kill diag
 		kill_brick(futureBallPos.x, futureBallPos.y);
-		return 3;
+		if (ballPos.x == 4 || ballPos.x == 0) {
+			return 1;
+		} else if (ballPos.y == 0) {
+			return 2;
+		} else {
+			return 3;
+		}
+	
 	} else if (above && diag && !adj) {
-		kill_brick(ballPos.x, ballPos.y + ballDir.y);
-		return 1;
+		if (brick_array[ballPos.x - ballDir.x][ballPos.y - ballDir.y]) {
+			kill_brick(ballPos.x, ballPos.y + ballDir.y);
+			kill_brick((ballPos.x - ballDir.x),(ballPos.y - ballDir.y));
+			return 3;
+		} else {
+			kill_brick(ballPos.x, ballPos.y + ballDir.y);
+			return 1;
+		}	
 	} else if (above && !diag && !adj) {
-		// kill above
-		kill_brick(ballPos.x, ballPos.y + ballDir.y);
-		return 1;
+		if (brick_array[ballPos.x - ballDir.x][ballPos.y - ballDir.y]) {
+			kill_brick(ballPos.x, ballPos.y + ballDir.y);
+			kill_brick((ballPos.x - ballDir.x),(ballPos.y - ballDir.y));
+			return 3;
+		} else {
+			kill_brick(ballPos.x, ballPos.y + ballDir.y);
+			return 1;
+		}	
 	} else if (!above && diag && adj) {
-		// kill adj
-		kill_brick(ballPos.x + ballDir.x, ballPos.y);
-		return 2;
+		if (brick_array[ballPos.x - ballDir.x][ballPos.y + ballDir.y]) {
+			kill_brick(ballPos.x + ballDir.x, ballPos.y);
+			kill_brick((ballPos.x - ballDir.x),(ballPos.y + ballDir.y));
+			return 1;
+		} else {
+			kill_brick(ballPos.x + ballDir.x, ballPos.y);
+			return 2;
+		}
+
 	} else if (!above && !diag && adj) {
-		// kill adj
-		kill_brick(ballPos.x + ballDir.x, ballPos.y);
-		return 2;
+		//kill adj
+		if (brick_array[ballPos.x - ballDir.x][ballPos.y + ballDir.y]) {
+			kill_brick(ballPos.x + ballDir.x, ballPos.y);
+			kill_brick((ballPos.x - ballDir.x),(ballPos.y + ballDir.y));
+			return 1;
+		} else {
+			kill_brick(ballPos.x + ballDir.x, ballPos.y);
+			return 2;
+		}
 	} else {
 		return 0;
 	}
