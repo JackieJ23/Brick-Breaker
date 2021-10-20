@@ -40,16 +40,16 @@ pacer.o: ../../utils/pacer.c ../../drivers/avr/system.h ../../drivers/avr/timer.
 navswitch.o: ../../drivers/navswitch.c ../../drivers/avr/delay.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-ball.o: ball.c ball.h ../../drivers/avr/system.h
+ball.o: ball.c ball.h ../../drivers/avr/system.h ../../drivers/display.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 player.o: player.c player.h ../../drivers/avr/system.h ../../drivers/display.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-bricks.o: bricks.c bricks.h ../../drivers/avr/system.h ../../drivers/display.h
+bricks.o: bricks.c bricks.h ball.h ../../drivers/avr/system.h ../../drivers/display.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gamelogic.o: gamelogic.c gamelogic.h ball.h player.h ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font3x5_1_r.h
+gamelogic.o: gamelogic.c gamelogic.h ball.h player.h ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/navswitch.h ../../fonts/font3x5_1_r.h ../../utils/tinygl.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 font.o: ../../utils/font.c ../../drivers/avr/system.h ../../utils/font.h

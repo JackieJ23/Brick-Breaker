@@ -12,7 +12,6 @@
 #include "tinygl.h"
 #include "../fonts/font3x5_1.h"
 #include "bricks.h"
-#include <stdbool.h>
 #include <stdint.h>
 
 #define START_MENU_MESSAGE "BRICK BREAKER"
@@ -85,17 +84,23 @@ void refresh_ball(void)
         GAME_STATE = GAME_END;
     }
 
-    int output = ball_hit_brick(futureBallPos, ballPos, ballDir);
-    if (output == 1) {
-		flip_vert_ball_dir();
-
-	} else if (output == 2) {
-		flip_horiz_ball_dir();
-
-	} else if (output == 3) {
-		flip_vert_ball_dir();
-		flip_horiz_ball_dir();
-	}
+    // Checking if a ball hits a brick
+    Flip_dir_t flipBallDir = ball_hit_brick(futureBallPos, ballPos, ballDir);
+    switch (flipBallDir) {
+        default:
+        case DONT_FLIP:
+            break;
+        case FLIP_VERT:
+		    flip_vert_ball_dir();
+            break;
+        case FLIP_HORIZ:
+            flip_horiz_ball_dir();
+            break;
+        case FLIP_VERT_AND_HORIZ:
+            flip_vert_ball_dir();
+            flip_horiz_ball_dir();
+            break;
+    }
 
     // Ball is in the row above the player.
     if (ballPos.y == playerPos.pRow - 1 && futureBallPos.y > ballPos.y) {

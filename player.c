@@ -5,7 +5,6 @@
 */
 
 #include <stdint.h>
-#include <stdbool.h>
 #include "system.h"
 #include "player.h"
 #include "display.h" // TODO: include display in Makefile.

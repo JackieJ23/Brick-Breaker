@@ -1,3 +1,9 @@
+/** @file   gamelogic.c
+    @author Jackie Jone, James Hazelhurst
+    @date   17 October 2021
+    @brief Game logic for Brick Breaker
+*/
+
 #ifndef GAMELOGIC_H
 #define GAMELOGIC_H
 

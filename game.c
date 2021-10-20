@@ -11,8 +11,6 @@
 #include "ball.h"
 #include "player.h"
 #include "gamelogic.h"
-#include "bricks.h"
-#include <stdbool.h>
 #include <stdint.h>
 
 // Defining pacer and update rates.

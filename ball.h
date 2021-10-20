@@ -20,6 +20,14 @@ typedef struct {
     Ball_vect_t dir;
 } Ball_t;
 
+/** Structure defining which direction to flip the ball */
+typedef enum {
+    DONT_FLIP,
+    FLIP_VERT,
+    FLIP_HORIZ,
+    FLIP_VERT_AND_HORIZ
+} Flip_dir_t;
+
 /** Create a new ball
     @param colPos Ball column starting position.
     @param rowPos Ball row starting position.
