@@ -197,7 +197,7 @@ void refresh_end_screen(void)
 uint64_t update_level(void)
 {
     Ball_vect_t ballPos = get_ball_position();
-    if (ballPos.y >= 4 && !bricks_remaining()) { // TODO: Get rid of magic number
+    if (ballPos.y >= MAX_BRICK_DEPTH && !bricks_remaining()) {
         bricks_init();
         return BALL_SPEED_INCREASE_AMOUNT;
     }

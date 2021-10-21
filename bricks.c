@@ -10,8 +10,6 @@
 #include "display.h"
 #include "ball.h"
 
-#define MAX_BRICK_DEPTH 4
-
 /** 2D array contianing all the brick positions
     <-- Top of display.
 	/\ Right of display. */
@@ -98,15 +96,15 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 
 
 	//check for a wall hit
-	
+
 	if (ballPos.x == 0 || ballPos.x == 4) {
 		wallHit = true;
-	} 
-	
+	}
+
 	if (ballPos.y == 0) {
 		roofHit = true;
 	}
-	
+
 	//~ if (wallHit && negDiag && !above) {
 		//~ kill_brick(ballPos.x - ballDir.x, ballPos.y + ballDir.y);
 		//~ return 1;
@@ -114,45 +112,45 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 		//~ kill_brick(ballPos.x + ballDir.x, ballPos.y - ballDir.y);
 		//~ return 2;
 	//~ } else {
-		
+
 	if ((above && diag && adj) || (above && adj && !diag)) {
 		kill_brick(ballPos.x, ballPos.y + ballDir.y);
 		kill_brick(ballPos.x + ballDir.x, ballPos.y);
-		return 3;
+		return FLIP_VERT_AND_HORIZ;
 	} else if (!above && diag && !adj) {
 		//~ // kill diag
 		kill_brick(futureBallPos.x, futureBallPos.y);
 		if (wallHit){
-			return 1;
+			return FLIP_VERT;
 		} if (roofHit) {
-			return 2;
+			return FLIP_HORIZ;
 		} else {
-			return 3;
+			return FLIP_VERT_AND_HORIZ;
 		}
-		
+
 	} else if ((above && diag && !adj) || (above && !diag && !adj)) {
 
 		kill_brick(ballPos.x, ballPos.y + ballDir.y);
 		if (posDiag){
 			kill_brick((ballPos.x + ballDir.x),(ballPos.y - ballDir.y));
-			return 3;
+			return FLIP_VERT_AND_HORIZ;
 		}
-		return 1;
-	
+		return FLIP_VERT;
+
 	} else if ((!above && diag && adj) || (!above && !diag && adj)) {
-		
+
 		kill_brick(ballPos.x + ballDir.x, ballPos.y);
 		if (negDiag) {
 			kill_brick((ballPos.x - ballDir.x),(ballPos.y + ballDir.y));
-			return 3;
+			return FLIP_VERT_AND_HORIZ;
 		} else {
-			return 2;
+			return FLIP_HORIZ;
 		}
-	
+
 	} else {
-		return 0;
+		return DONT_FLIP;
 	}
-	
+
 
 	//~ if (above && diag && adj) {
 		//~ kill_brick(ballPos.x, ballPos.y + ballDir.y);
@@ -173,7 +171,7 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 		//~ } else {
 			//~ return 3;
 		//~ }
-	
+
 	//~ } else if (above && diag && !adj) {
 		//~ if (brick_array[ballPos.x - ballDir.x][ballPos.y - ballDir.y]) {
 			//~ kill_brick(ballPos.x, ballPos.y + ballDir.y);
@@ -186,7 +184,7 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 		//~ } else {
 			//~ kill_brick(ballPos.x, ballPos.y + ballDir.y);
 			//~ return 1;
-		//~ }	
+		//~ }
 	//~ } else if (above && !diag && !adj) {
 		//~ if (brick_array[ballPos.x - ballDir.x][ballPos.y - ballDir.y]) {
 			//~ kill_brick(ballPos.x, ballPos.y + ballDir.y);
@@ -199,7 +197,7 @@ Flip_dir_t ball_hit_brick(Ball_vect_t futureBallPos, Ball_vect_t ballPos, Ball_v
 		//~ } else {
 			//~ kill_brick(ballPos.x, ballPos.y + ballDir.y);
 			//~ return 1;
-		//~ }	
+		//~ }
 	//~ } else if (!above && diag && adj) {
 		//~ if (brick_array[ballPos.x - ballDir.x][ballPos.y + ballDir.y]) {
 			//~ kill_brick(ballPos.x + ballDir.x, ballPos.y);

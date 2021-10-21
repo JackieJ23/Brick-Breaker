@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include "ball.h"
 
+#define MAX_BRICK_DEPTH 4
+
 /** Structure defining position and status of a brick */
 typedef struct {
 	uint8_t col;

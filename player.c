@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include "system.h"
 #include "player.h"
-#include "display.h" // TODO: include display in Makefile.
+#include "display.h"
 
 #define PLAYER_WIDTH 2
 
