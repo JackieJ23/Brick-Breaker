@@ -16,6 +16,13 @@
 
 #define START_MENU_MESSAGE "BRICK BREAKER"
 #define GAME_OVER_MESSAGE "GAME OVER"
+#define DEFAULT_PLAYER_COL 2
+#define DEFAULT_PLAYER_ROW 6
+
+#define DEFAULT_BALL_COL 2
+#define DEFAULT_BALL_ROW 5
+#define DEFAULT_BALL_X_DIR -1
+#define DEFAULT_BALL_Y_DIR -1
 
 // Defining state of the game.
 static Game_state_t GAME_STATE = START_MENU;
@@ -142,8 +149,8 @@ void start_new_game(void)
     display_clear();
     display_update();
     bricks_init();
-    ball_init(2, 4, 1, 1);
-    player_init(2, 6);
+    ball_init(DEFAULT_BALL_COL, DEFAULT_BALL_ROW, DEFAULT_BALL_X_DIR, DEFAULT_BALL_Y_DIR);
+    player_init(DEFAULT_PLAYER_COL, DEFAULT_PLAYER_ROW);
 }
 
 /** Updating start menu. */
