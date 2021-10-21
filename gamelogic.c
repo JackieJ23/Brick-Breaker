@@ -13,9 +13,11 @@
 #include "../fonts/font3x5_1.h"
 #include "bricks.h"
 #include <stdint.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define START_MENU_MESSAGE "BRICK BREAKER"
-#define GAME_OVER_MESSAGE "GAME OVER"
+#define GAME_OVER_MESSAGE "GAME OVER SCORE "
 #define DEFAULT_PLAYER_COL 2
 #define DEFAULT_PLAYER_ROW 6
 
@@ -23,11 +25,19 @@
 #define DEFAULT_BALL_ROW 5
 #define DEFAULT_BALL_X_DIR -1
 #define DEFAULT_BALL_Y_DIR -1
+#define END_MESSAGE_LEN 40
+#define BASE_TEN 10
+
 
 // Defining state of the game.
 static Game_state_t GAME_STATE = START_MENU;
 // Defining whether the scrolling text has been updated.
 static bool UPDATED_TEXT = false;
+
+static int SCORE = 0;
+
+static 	char SCORE_STR[3];
+
 
 /** Initalise display text.
     @param rate Rate to set tingyl. */
@@ -151,6 +161,8 @@ void start_new_game(void)
     bricks_init();
     ball_init(DEFAULT_BALL_COL, DEFAULT_BALL_ROW, DEFAULT_BALL_X_DIR, DEFAULT_BALL_Y_DIR);
     player_init(DEFAULT_PLAYER_COL, DEFAULT_PLAYER_ROW);
+    SCORE = 0;
+
 }
 
 /** Updating start menu. */
@@ -174,12 +186,19 @@ void refresh_start_menu(void)
 }
 
 /** Updating end screen. */
-void refresh_end_screen(void)
+void refresh_end_screen()
 {
+	//SCORE_STR = {0};
+	char end_message[END_MESSAGE_LEN] = GAME_OVER_MESSAGE;
+	itoa(SCORE, SCORE_STR, BASE_TEN);	
+	strcat(end_message, SCORE_STR);
+	
     if (!UPDATED_TEXT) {
         display_text_init(DISPLAY_TEXT_RATE);
-        set_display_text(GAME_OVER_MESSAGE);
+        set_display_text(end_message);
         UPDATED_TEXT = true;
+    SCORE_STR[0] = '0';
+    SCORE_STR[1] = 0;
     }
 
     refresh_display_text();
@@ -192,13 +211,16 @@ void refresh_end_screen(void)
     }
 }
 
+
+
 /** Check if it is time to increase the difficulty of the game
     @return value to increase ball speed by. */
 uint64_t update_level(void)
 {
     Ball_vect_t ballPos = get_ball_position();
-    if (ballPos.y >= MAX_BRICK_DEPTH && !bricks_remaining()) {
+    if (ballPos.y >= 4 && !bricks_remaining()) { // TODO: Get rid of magic number
         bricks_init();
+        SCORE++;
         return BALL_SPEED_INCREASE_AMOUNT;
     }
     return 0;

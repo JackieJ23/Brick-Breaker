@@ -20,6 +20,7 @@
 #define START_MENU_UPDATE_RATE 500
 #define BASE_BALL_SPEED 3
 
+
 int main(void)
 {
     // Initilise system.
@@ -29,17 +30,14 @@ int main(void)
     navswitch_init();
     display_init();
 
-    // Refresh rate constants
+    // TODO: Constants and use of constants needs a bit of an update.
+    uint64_t ballSpeed = BASE_BALL_SPEED;
+    uint64_t BALL_COUNTER_TOTAL = PACER_RATE / ballSpeed;
     const uint64_t PLAYER_COUNTER_TOTAL = PACER_RATE / PLAYER_UPDATE_RATE;
     const uint64_t DISPLAY_COUNTER_TOTAL = PACER_RATE / DISPLAY_UPDATE_RATE;
     const uint64_t START_MENU_COUNTER_TOTAL = PACER_RATE / START_MENU_UPDATE_RATE;
-
-    // Ball speed variables
-    uint64_t ballSpeed = BASE_BALL_SPEED;
-    uint64_t BALL_COUNTER_TOTAL = PACER_RATE / ballSpeed;
-    uint64_t ballSpeedIncrease;
-
     uint64_t tickCounter = 0;
+    uint64_t ballSpeedIncrease;
 
 
     while(true)
@@ -65,6 +63,7 @@ int main(void)
                     ballSpeedIncrease = update_level();
                     if (ballSpeedIncrease) {
                         set_ball_speed(PACER_RATE, &ballSpeed, &BALL_COUNTER_TOTAL, ballSpeed + ballSpeedIncrease);
+
                     }
                 }
 
