@@ -30,14 +30,17 @@ int main(void)
     navswitch_init();
     display_init();
 
-    // TODO: Constants and use of constants needs a bit of an update.
-    uint64_t ballSpeed = BASE_BALL_SPEED;
-    uint64_t BALL_COUNTER_TOTAL = PACER_RATE / ballSpeed;
+    // Update rate constants
     const uint64_t PLAYER_COUNTER_TOTAL = PACER_RATE / PLAYER_UPDATE_RATE;
     const uint64_t DISPLAY_COUNTER_TOTAL = PACER_RATE / DISPLAY_UPDATE_RATE;
     const uint64_t START_MENU_COUNTER_TOTAL = PACER_RATE / START_MENU_UPDATE_RATE;
-    uint64_t tickCounter = 0;
+
+    // Ball speed varibles
+    uint64_t ballSpeed = BASE_BALL_SPEED;
+    uint64_t BALL_COUNTER_TOTAL = PACER_RATE / ballSpeed;
     uint64_t ballSpeedIncrease;
+
+    uint64_t tickCounter = 0;
 
 
     while(true)

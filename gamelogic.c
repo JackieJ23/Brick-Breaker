@@ -190,9 +190,9 @@ void refresh_end_screen()
 {
 	//SCORE_STR = {0};
 	char end_message[END_MESSAGE_LEN] = GAME_OVER_MESSAGE;
-	itoa(SCORE, SCORE_STR, BASE_TEN);	
+	itoa(SCORE, SCORE_STR, BASE_TEN);
 	strcat(end_message, SCORE_STR);
-	
+
     if (!UPDATED_TEXT) {
         display_text_init(DISPLAY_TEXT_RATE);
         set_display_text(end_message);
@@ -218,7 +218,7 @@ void refresh_end_screen()
 uint64_t update_level(void)
 {
     Ball_vect_t ballPos = get_ball_position();
-    if (ballPos.y >= 4 && !bricks_remaining()) { // TODO: Get rid of magic number
+    if (ballPos.y >= MAX_BRICK_DEPTH && !bricks_remaining()) {
         bricks_init();
         SCORE++;
         return BALL_SPEED_INCREASE_AMOUNT;
