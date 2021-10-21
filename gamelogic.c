@@ -25,7 +25,9 @@
 #define DEFAULT_BALL_ROW 5
 #define DEFAULT_BALL_X_DIR -1
 #define DEFAULT_BALL_Y_DIR -1
+
 #define END_MESSAGE_LEN 40
+#define SCORE_STR_LEN 3
 #define BASE_TEN 10
 
 
@@ -34,9 +36,9 @@ static Game_state_t GAME_STATE = START_MENU;
 // Defining whether the scrolling text has been updated.
 static bool UPDATED_TEXT = false;
 
+// Score counter
 static int SCORE = 0;
-
-static 	char SCORE_STR[3];
+static 	char SCORE_STR[SCORE_STR_LEN];
 
 
 /** Initalise display text.

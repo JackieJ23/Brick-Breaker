@@ -63,7 +63,6 @@ void move_player_right(void)
 
         display_pixel_set(player.pRight, player.pRow, true);
         display_pixel_set(player.pLeft, player.pRow, true);
-
     }
 }
 
@@ -77,5 +76,4 @@ Player_t get_player_position(void)
         .pRow = player.pRow
     };
     return playerCpy;
-    // return player;
 }

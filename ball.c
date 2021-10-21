@@ -39,12 +39,8 @@ void update_ball_pos(void)
     ball.pos.x += ball.dir.x;
     ball.pos.y += ball.dir.y;
 
-
-
     // Checking if the ball has hit an edge of the screen.
     // Left and right edges.
-    
-    
     if (ball.pos.x >= COL_WIDTH - 1) {
         ball.pos.x = COL_WIDTH - 1;
         flip_horiz_ball_dir();

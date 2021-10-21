@@ -55,7 +55,6 @@ int main(void)
                     refresh_start_menu();
                 }
                 break;
-
             case GAME_RUNNING:
                 if (tickCounter % PLAYER_COUNTER_TOTAL == 0) {
                     update_player();
@@ -66,7 +65,6 @@ int main(void)
                     ballSpeedIncrease = update_level();
                     if (ballSpeedIncrease) {
                         set_ball_speed(PACER_RATE, &ballSpeed, &BALL_COUNTER_TOTAL, ballSpeed + ballSpeedIncrease);
-
                     }
                 }
 
@@ -79,9 +77,6 @@ int main(void)
                     set_ball_speed(PACER_RATE, &ballSpeed, &BALL_COUNTER_TOTAL, BASE_BALL_SPEED);
                     refresh_end_screen();
                 }
-
-                // if (tickCounter % START_MENU_COUNTER_TOTAL == 0) {
-                // }
                 break;
         }
         tickCounter++;
